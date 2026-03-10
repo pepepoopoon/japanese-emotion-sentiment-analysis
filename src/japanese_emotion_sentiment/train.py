@@ -9,7 +9,7 @@ from pathlib import Path
 import joblib
 
 from .data import EMOTION_COLUMNS, load_csv, stratified_split
-from .io import write_json
+from .io import MODEL_SCHEMA_VERSION, write_json
 from .model import (
     build_emotion_model,
     build_polarity_model,
@@ -39,7 +39,7 @@ def train(data_path: str | Path, output_dir: str | Path, *, random_state: int = 
         validation_frame.loc[:, EMOTION_COLUMNS].to_numpy(), validation_probabilities
     )
     bundle = {
-        "schema_version": 1,
+        "schema_version": MODEL_SCHEMA_VERSION,
         "random_state": random_state,
         "vectorizer": vectorizer,
         "polarity_model": polarity_model,
@@ -56,7 +56,7 @@ def train(data_path: str | Path, output_dir: str | Path, *, random_state: int = 
     validation_frame.to_csv(destination / "validation.csv", index=False)
     test_frame.to_csv(destination / "test.csv", index=False)
     metadata = {
-        "schema_version": 1,
+        "schema_version": MODEL_SCHEMA_VERSION,
         "random_state": random_state,
         "split_strategy": "stratified by polarity",
         "split_rows": {
