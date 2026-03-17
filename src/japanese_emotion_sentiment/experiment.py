@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, precision_score, recall_score
 from sklearn.pipeline import FeatureUnion
 
 from .data import EMOTION_COLUMNS, normalize_text, stratified_split, validate_frame
@@ -27,7 +27,8 @@ from .model import (
 
 RESULT_SCHEMA_VERSION = 1
 FEATURE_MODES = ("char", "word", "char_word")
-STRESS_MODES = ("none", "unicode")
+STRESS_MODES = ("none", "unicode", "punctuation")
+PUNCTUATION_STYLES = ("remove", "repeat", "emoji", "mixed")
 
 
 def baseline_metrics(
@@ -60,6 +61,30 @@ def baseline_metrics(
     }
 
 
+def per_emotion_diagnostics(
+    truth: np.ndarray,
+    probabilities: np.ndarray,
+    thresholds: np.ndarray,
+) -> dict[str, object]:
+    """Report support and thresholded quality for every emotion."""
+    predictions = probabilities >= thresholds
+    diagnostics: dict[str, object] = {}
+    for index, emotion in enumerate(EMOTION_COLUMNS):
+        diagnostics[emotion] = {
+            "support": int(truth[:, index].sum()),
+            "prevalence": float(truth[:, index].mean()),
+            "predicted_positive": int(predictions[:, index].sum()),
+            "mean_probability": float(probabilities[:, index].mean()),
+            "threshold": float(thresholds[index]),
+            "precision": float(
+                precision_score(truth[:, index], predictions[:, index], zero_division=0)
+            ),
+            "recall": float(recall_score(truth[:, index], predictions[:, index], zero_division=0)),
+            "f1": float(f1_score(truth[:, index], predictions[:, index], zero_division=0)),
+        }
+    return diagnostics
+
+
 def build_experiment_vectorizer(feature_mode: str) -> object:
     """Build comparable character, word, or combined TF-IDF features."""
     if feature_mode not in FEATURE_MODES:
@@ -83,6 +108,19 @@ def unicode_variant(text: str) -> str:
     return "".join(
         chr(ord(character) + 0xFEE0) if "!" <= character <= "~" else character for character in text
     )
+
+
+def punctuation_variant(text: str, style: str) -> str:
+    """Apply one deterministic punctuation perturbation."""
+    if style not in PUNCTUATION_STYLES:
+        raise ValueError(f"unsupported punctuation_style: {style}")
+    if style == "remove":
+        return text.translate(str.maketrans("", "", "。！？!?、,."))
+    if style == "repeat":
+        return text.replace("。", "！！！").replace("！", "！！！")
+    if style == "emoji":
+        return f"{text}🙂"
+    return f"【{text.translate(str.maketrans('', '', '。、'))}】!"
 
 
 def stress_frame(
@@ -111,6 +149,7 @@ def run_experiment(
     feature_mode: str = "char",
     stress_mode: str = "none",
     stress_fraction: float = 0.0,
+    punctuation_style: str = "mixed",
 ) -> dict[str, object]:
     """Fit the classical model and evaluate deterministic validation/test splits."""
     frame = validate_frame(make_smoke_data())
@@ -119,6 +158,8 @@ def run_experiment(
         raise ValueError(f"unsupported stress_mode: {stress_mode}")
     if not 0 <= stress_fraction <= 1:
         raise ValueError("stress_fraction must be in [0, 1]")
+    if punctuation_style not in PUNCTUATION_STYLES:
+        raise ValueError(f"unsupported punctuation_style: {punctuation_style}")
     vectorizer = build_experiment_vectorizer(feature_mode)
     train_features = vectorizer.fit_transform(train["text"])
     validation_features = vectorizer.transform(validation["text"])
@@ -127,9 +168,9 @@ def run_experiment(
     polarity_model.fit(train_features, train["polarity"])
     emotion_model = build_emotion_model(random_state=seed)
     emotion_model.fit(train_features, train.loc[:, EMOTION_COLUMNS].to_numpy())
+    validation_probabilities = emotion_model.predict_proba(validation_features)
     thresholds = tune_thresholds(
-        validation.loc[:, EMOTION_COLUMNS].to_numpy(),
-        emotion_model.predict_proba(validation_features),
+        validation.loc[:, EMOTION_COLUMNS].to_numpy(), validation_probabilities
     )
     bundle = {
         "vectorizer": vectorizer,
@@ -164,6 +205,23 @@ def run_experiment(
             "normalized_metrics": evaluate_bundle(bundle, normalized_test, EMOTION_COLUMNS),
         }
         test = normalized_test
+    elif stress_mode == "punctuation":
+        original_test = test.copy()
+        stressed_test = stress_frame(
+            test,
+            fraction=stress_fraction,
+            seed=seed + 1,
+            transform=lambda text: punctuation_variant(text, punctuation_style),
+        )
+        stressed_test["text"] = stressed_test["text"].map(normalize_text)
+        stress_diagnostics = {
+            "mode": stress_mode,
+            "style": punctuation_style,
+            "fraction": stress_fraction,
+            "selected_rows": int(stressed_test["text"].ne(original_test["text"]).sum()),
+            "stressed_metrics": evaluate_bundle(bundle, stressed_test, EMOTION_COLUMNS),
+        }
+        test = stressed_test
     validation_metrics = evaluate_bundle(bundle, validation, EMOTION_COLUMNS)
     test_metrics = evaluate_bundle(bundle, test, EMOTION_COLUMNS)
     validation_baseline = baseline_metrics(
@@ -178,6 +236,7 @@ def run_experiment(
         vectorizer.transform(test["text"]),
         test,
     )
+    test_probabilities = emotion_model.predict_proba(vectorizer.transform(test["text"]))
     return {
         "schema_version": RESULT_SCHEMA_VERSION,
         "config": {
@@ -185,6 +244,7 @@ def run_experiment(
             "seed": seed,
             "stress_fraction": stress_fraction,
             "stress_mode": stress_mode,
+            "punctuation_style": punctuation_style,
         },
         "data": {
             "rows": len(frame),
@@ -206,6 +266,18 @@ def run_experiment(
             ),
         },
         "emotion_thresholds": dict(zip(EMOTION_COLUMNS, thresholds.tolist(), strict=True)),
+        "per_emotion": {
+            "validation": per_emotion_diagnostics(
+                validation.loc[:, EMOTION_COLUMNS].to_numpy(),
+                validation_probabilities,
+                thresholds,
+            ),
+            "test": per_emotion_diagnostics(
+                test.loc[:, EMOTION_COLUMNS].to_numpy(),
+                test_probabilities,
+                thresholds,
+            ),
+        },
         "stress_diagnostics": stress_diagnostics,
     }
 
@@ -217,6 +289,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--feature-mode", choices=FEATURE_MODES, default="char")
     parser.add_argument("--stress-mode", choices=STRESS_MODES, default="none")
     parser.add_argument("--stress-fraction", type=float, default=0.0)
+    parser.add_argument("--punctuation-style", choices=PUNCTUATION_STYLES, default="mixed")
     args = parser.parse_args(argv)
     write_json(
         args.output,
@@ -225,6 +298,7 @@ def main(argv: list[str] | None = None) -> None:
             feature_mode=args.feature_mode,
             stress_mode=args.stress_mode,
             stress_fraction=args.stress_fraction,
+            punctuation_style=args.punctuation_style,
         ),
     )
     print(f"experiment result written to {args.output}")

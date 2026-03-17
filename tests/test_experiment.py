@@ -4,7 +4,12 @@ import json
 from pathlib import Path
 
 from japanese_emotion_sentiment.data import normalize_text
-from japanese_emotion_sentiment.experiment import main, run_experiment, unicode_variant
+from japanese_emotion_sentiment.experiment import (
+    main,
+    punctuation_variant,
+    run_experiment,
+    unicode_variant,
+)
 
 
 def test_experiment_runner_is_reproducible() -> None:
@@ -28,6 +33,7 @@ def test_experiment_cli_writes_json(tmp_path: Path) -> None:
     payload = json.loads(output.read_text(encoding="utf-8"))
     assert payload["config"] == {
         "feature_mode": "char",
+        "punctuation_style": "mixed",
         "seed": 43,
         "stress_fraction": 0.0,
         "stress_mode": "none",
@@ -70,3 +76,30 @@ def test_unicode_stress_is_recovered_by_nfkc_normalization() -> None:
     assert result["stress_diagnostics"]["selected_rows"] == 10
     assert result["stress_diagnostics"]["normalized_recovered_rows"] == 10
     assert result["stress_diagnostics"]["normalized_metrics"] == result["test_metrics"]
+
+
+def test_punctuation_stress_changes_selected_holdout_texts() -> None:
+    assert punctuation_variant("驚いた。", "remove") == "驚いた"
+    assert punctuation_variant("驚いた。", "emoji").endswith("🙂")
+
+    result = run_experiment(
+        seed=42,
+        stress_mode="punctuation",
+        stress_fraction=0.5,
+        punctuation_style="remove",
+    )
+
+    assert result["stress_diagnostics"]["selected_rows"] == 5
+    assert result["stress_diagnostics"]["style"] == "remove"
+    assert result["stress_diagnostics"]["stressed_metrics"] == result["test_metrics"]
+
+
+def test_per_emotion_diagnostics_cover_all_labels_and_thresholds() -> None:
+    result = run_experiment(seed=42)
+    diagnostics = result["per_emotion"]["test"]
+    thresholds = result["emotion_thresholds"]
+
+    assert len(diagnostics) == 8
+    assert set(diagnostics) == set(thresholds)
+    assert all(0 <= row["precision"] <= 1 for row in diagnostics.values())
+    assert all(row["threshold"] == thresholds[name] for name, row in diagnostics.items())
