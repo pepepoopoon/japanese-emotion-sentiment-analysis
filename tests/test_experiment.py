@@ -33,10 +33,12 @@ def test_experiment_cli_writes_json(tmp_path: Path) -> None:
     payload = json.loads(output.read_text(encoding="utf-8"))
     assert payload["config"] == {
         "feature_mode": "char",
+        "fixed_threshold": 0.5,
         "punctuation_style": "mixed",
         "seed": 43,
         "stress_fraction": 0.0,
         "stress_mode": "none",
+        "threshold_mode": "tuned",
     }
     assert len(payload["emotion_thresholds"]) == 8
     assert output.read_text(encoding="utf-8").endswith("\n")
@@ -103,3 +105,16 @@ def test_per_emotion_diagnostics_cover_all_labels_and_thresholds() -> None:
     assert set(diagnostics) == set(thresholds)
     assert all(0 <= row["precision"] <= 1 for row in diagnostics.values())
     assert all(row["threshold"] == thresholds[name] for name, row in diagnostics.items())
+
+
+def test_fixed_threshold_mode_preserves_tuning_diagnostics() -> None:
+    result = run_experiment(seed=42, threshold_mode="fixed", fixed_threshold=0.7)
+
+    assert set(result["emotion_thresholds"].values()) == {0.7}
+    assert result["emotion_thresholds"] != result["tuned_emotion_thresholds"]
+    assert set(result["threshold_diagnostics"]) == set(result["emotion_thresholds"])
+    assert all(
+        len(diagnostics["curve"]) >= 19
+        and diagnostics["tuned_threshold"] == result["tuned_emotion_thresholds"][emotion]
+        for emotion, diagnostics in result["threshold_diagnostics"].items()
+    )

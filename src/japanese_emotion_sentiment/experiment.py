@@ -29,6 +29,8 @@ RESULT_SCHEMA_VERSION = 1
 FEATURE_MODES = ("char", "word", "char_word")
 STRESS_MODES = ("none", "unicode", "punctuation")
 PUNCTUATION_STYLES = ("remove", "repeat", "emoji", "mixed")
+THRESHOLD_MODES = ("tuned", "fixed")
+THRESHOLD_GRID = tuple(float(value) for value in np.linspace(0.05, 0.95, 19))
 
 
 def baseline_metrics(
@@ -81,6 +83,45 @@ def per_emotion_diagnostics(
             ),
             "recall": float(recall_score(truth[:, index], predictions[:, index], zero_division=0)),
             "f1": float(f1_score(truth[:, index], predictions[:, index], zero_division=0)),
+        }
+    return diagnostics
+
+
+def threshold_diagnostics(
+    truth: np.ndarray,
+    probabilities: np.ndarray,
+    tuned_thresholds: np.ndarray,
+) -> dict[str, object]:
+    """Build validation curves around the independently tuned emotion thresholds."""
+    diagnostics: dict[str, object] = {}
+    for index, emotion in enumerate(EMOTION_COLUMNS):
+        tuned_threshold = float(tuned_thresholds[index])
+        candidates = sorted({*THRESHOLD_GRID, tuned_threshold})
+        curve = []
+        for threshold in candidates:
+            predictions = probabilities[:, index] >= threshold
+            curve.append(
+                {
+                    "threshold": threshold,
+                    "precision": float(
+                        precision_score(truth[:, index], predictions, zero_division=0)
+                    ),
+                    "recall": float(recall_score(truth[:, index], predictions, zero_division=0)),
+                    "f1": float(f1_score(truth[:, index], predictions, zero_division=0)),
+                    "predicted_positive": int(predictions.sum()),
+                }
+            )
+        best = max(
+            curve,
+            key=lambda row: (row["f1"], -abs(row["threshold"] - 0.5)),
+        )
+        tuned = next(row for row in curve if row["threshold"] == tuned_threshold)
+        diagnostics[emotion] = {
+            "tuned_threshold": tuned_threshold,
+            "tuned_validation_f1": tuned["f1"],
+            "curve_best_threshold": best["threshold"],
+            "curve_best_f1": best["f1"],
+            "curve": curve,
         }
     return diagnostics
 
@@ -150,6 +191,8 @@ def run_experiment(
     stress_mode: str = "none",
     stress_fraction: float = 0.0,
     punctuation_style: str = "mixed",
+    threshold_mode: str = "tuned",
+    fixed_threshold: float = 0.5,
 ) -> dict[str, object]:
     """Fit the classical model and evaluate deterministic validation/test splits."""
     frame = validate_frame(make_smoke_data())
@@ -160,6 +203,10 @@ def run_experiment(
         raise ValueError("stress_fraction must be in [0, 1]")
     if punctuation_style not in PUNCTUATION_STYLES:
         raise ValueError(f"unsupported punctuation_style: {punctuation_style}")
+    if threshold_mode not in THRESHOLD_MODES:
+        raise ValueError(f"unsupported threshold_mode: {threshold_mode}")
+    if not 0 <= fixed_threshold <= 1:
+        raise ValueError("fixed_threshold must be in [0, 1]")
     vectorizer = build_experiment_vectorizer(feature_mode)
     train_features = vectorizer.fit_transform(train["text"])
     validation_features = vectorizer.transform(validation["text"])
@@ -169,8 +216,13 @@ def run_experiment(
     emotion_model = build_emotion_model(random_state=seed)
     emotion_model.fit(train_features, train.loc[:, EMOTION_COLUMNS].to_numpy())
     validation_probabilities = emotion_model.predict_proba(validation_features)
-    thresholds = tune_thresholds(
+    tuned_thresholds = tune_thresholds(
         validation.loc[:, EMOTION_COLUMNS].to_numpy(), validation_probabilities
+    )
+    thresholds = (
+        tuned_thresholds
+        if threshold_mode == "tuned"
+        else np.full(len(EMOTION_COLUMNS), fixed_threshold)
     )
     bundle = {
         "vectorizer": vectorizer,
@@ -245,6 +297,8 @@ def run_experiment(
             "stress_fraction": stress_fraction,
             "stress_mode": stress_mode,
             "punctuation_style": punctuation_style,
+            "threshold_mode": threshold_mode,
+            "fixed_threshold": fixed_threshold,
         },
         "data": {
             "rows": len(frame),
@@ -266,6 +320,14 @@ def run_experiment(
             ),
         },
         "emotion_thresholds": dict(zip(EMOTION_COLUMNS, thresholds.tolist(), strict=True)),
+        "tuned_emotion_thresholds": dict(
+            zip(EMOTION_COLUMNS, tuned_thresholds.tolist(), strict=True)
+        ),
+        "threshold_diagnostics": threshold_diagnostics(
+            validation.loc[:, EMOTION_COLUMNS].to_numpy(),
+            validation_probabilities,
+            tuned_thresholds,
+        ),
         "per_emotion": {
             "validation": per_emotion_diagnostics(
                 validation.loc[:, EMOTION_COLUMNS].to_numpy(),
@@ -290,6 +352,8 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--stress-mode", choices=STRESS_MODES, default="none")
     parser.add_argument("--stress-fraction", type=float, default=0.0)
     parser.add_argument("--punctuation-style", choices=PUNCTUATION_STYLES, default="mixed")
+    parser.add_argument("--threshold-mode", choices=THRESHOLD_MODES, default="tuned")
+    parser.add_argument("--fixed-threshold", type=float, default=0.5)
     args = parser.parse_args(argv)
     write_json(
         args.output,
@@ -299,6 +363,8 @@ def main(argv: list[str] | None = None) -> None:
             stress_mode=args.stress_mode,
             stress_fraction=args.stress_fraction,
             punctuation_style=args.punctuation_style,
+            threshold_mode=args.threshold_mode,
+            fixed_threshold=args.fixed_threshold,
         ),
     )
     print(f"experiment result written to {args.output}")
