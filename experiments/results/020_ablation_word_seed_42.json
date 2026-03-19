@@ -1,0 +1,1439 @@
+{
+  "baseline_metrics": {
+    "test": {
+      "emotions": {
+        "hamming_loss": 0.1875,
+        "macro_f1": 0.0,
+        "micro_f1": 0.0
+      },
+      "polarity_macro_f1": 0.15384615384615385,
+      "rows": 10
+    },
+    "validation": {
+      "emotions": {
+        "hamming_loss": 0.1875,
+        "macro_f1": 0.0,
+        "micro_f1": 0.0
+      },
+      "polarity_macro_f1": 0.15384615384615385,
+      "rows": 10
+    }
+  },
+  "config": {
+    "feature_mode": "word",
+    "fixed_threshold": 0.5,
+    "punctuation_style": "mixed",
+    "seed": 42,
+    "stress_fraction": 0.0,
+    "stress_mode": "none",
+    "threshold_mode": "tuned"
+  },
+  "data": {
+    "rows": 48,
+    "test_rows": 10,
+    "train_rows": 28,
+    "validation_rows": 10
+  },
+  "delta_vs_baseline": {
+    "test_emotion_micro_f1": 1.0,
+    "test_polarity_macro_f1": 0.8461538461538461
+  },
+  "emotion_thresholds": {
+    "emotion_anger": 0.5,
+    "emotion_anticipation": 0.45000000000000007,
+    "emotion_disgust": 0.5,
+    "emotion_fear": 0.5,
+    "emotion_joy": 0.5,
+    "emotion_sadness": 0.5,
+    "emotion_surprise": 0.5,
+    "emotion_trust": 0.5
+  },
+  "feature_count": 44,
+  "model": "word_tfidf_logistic_regression",
+  "per_emotion": {
+    "test": {
+      "emotion_anger": {
+        "f1": 0.0,
+        "mean_probability": 0.20100112373438472,
+        "precision": 0.0,
+        "predicted_positive": 0,
+        "prevalence": 0.0,
+        "recall": 0.0,
+        "support": 0,
+        "threshold": 0.5
+      },
+      "emotion_anticipation": {
+        "f1": 1.0,
+        "mean_probability": 0.360463860085872,
+        "precision": 1.0,
+        "predicted_positive": 2,
+        "prevalence": 0.2,
+        "recall": 1.0,
+        "support": 2,
+        "threshold": 0.45000000000000007
+      },
+      "emotion_disgust": {
+        "f1": 0.0,
+        "mean_probability": 0.20100112373438472,
+        "precision": 0.0,
+        "predicted_positive": 0,
+        "prevalence": 0.0,
+        "recall": 0.0,
+        "support": 0,
+        "threshold": 0.5
+      },
+      "emotion_fear": {
+        "f1": 1.0,
+        "mean_probability": 0.3912892555724087,
+        "precision": 1.0,
+        "predicted_positive": 2,
+        "prevalence": 0.2,
+        "recall": 1.0,
+        "support": 2,
+        "threshold": 0.5
+      },
+      "emotion_joy": {
+        "f1": 1.0,
+        "mean_probability": 0.45418990487075195,
+        "precision": 1.0,
+        "predicted_positive": 4,
+        "prevalence": 0.4,
+        "recall": 1.0,
+        "support": 4,
+        "threshold": 0.5
+      },
+      "emotion_sadness": {
+        "f1": 1.0,
+        "mean_probability": 0.39246900109358374,
+        "precision": 1.0,
+        "predicted_positive": 1,
+        "prevalence": 0.1,
+        "recall": 1.0,
+        "support": 1,
+        "threshold": 0.5
+      },
+      "emotion_surprise": {
+        "f1": 1.0,
+        "mean_probability": 0.46405635141709894,
+        "precision": 1.0,
+        "predicted_positive": 4,
+        "prevalence": 0.4,
+        "recall": 1.0,
+        "support": 4,
+        "threshold": 0.5
+      },
+      "emotion_trust": {
+        "f1": 1.0,
+        "mean_probability": 0.3806775613187442,
+        "precision": 1.0,
+        "predicted_positive": 2,
+        "prevalence": 0.2,
+        "recall": 1.0,
+        "support": 2,
+        "threshold": 0.5
+      }
+    },
+    "validation": {
+      "emotion_anger": {
+        "f1": 1.0,
+        "mean_probability": 0.3072725369992406,
+        "precision": 1.0,
+        "predicted_positive": 3,
+        "prevalence": 0.3,
+        "recall": 1.0,
+        "support": 3,
+        "threshold": 0.5
+      },
+      "emotion_anticipation": {
+        "f1": 1.0,
+        "mean_probability": 0.3720148516031758,
+        "precision": 1.0,
+        "predicted_positive": 3,
+        "prevalence": 0.3,
+        "recall": 1.0,
+        "support": 3,
+        "threshold": 0.45000000000000007
+      },
+      "emotion_disgust": {
+        "f1": 1.0,
+        "mean_probability": 0.3072725369992406,
+        "precision": 1.0,
+        "predicted_positive": 3,
+        "prevalence": 0.3,
+        "recall": 1.0,
+        "support": 3,
+        "threshold": 0.5
+      },
+      "emotion_fear": {
+        "f1": 1.0,
+        "mean_probability": 0.38311673255679723,
+        "precision": 1.0,
+        "predicted_positive": 1,
+        "prevalence": 0.1,
+        "recall": 1.0,
+        "support": 1,
+        "threshold": 0.5
+      },
+      "emotion_joy": {
+        "f1": 1.0,
+        "mean_probability": 0.44170945416124435,
+        "precision": 1.0,
+        "predicted_positive": 3,
+        "prevalence": 0.3,
+        "recall": 1.0,
+        "support": 3,
+        "threshold": 0.5
+      },
+      "emotion_sadness": {
+        "f1": 1.0,
+        "mean_probability": 0.4039300159952054,
+        "precision": 1.0,
+        "predicted_positive": 1,
+        "prevalence": 0.1,
+        "recall": 1.0,
+        "support": 1,
+        "threshold": 0.5
+      },
+      "emotion_surprise": {
+        "f1": 0.0,
+        "mean_probability": 0.378140498764012,
+        "precision": 0.0,
+        "predicted_positive": 0,
+        "prevalence": 0.0,
+        "recall": 0.0,
+        "support": 0,
+        "threshold": 0.5
+      },
+      "emotion_trust": {
+        "f1": 1.0,
+        "mean_probability": 0.3775444128037893,
+        "precision": 1.0,
+        "predicted_positive": 1,
+        "prevalence": 0.1,
+        "recall": 1.0,
+        "support": 1,
+        "threshold": 0.5
+      }
+    }
+  },
+  "schema_version": 1,
+  "stress_diagnostics": {
+    "fraction": 0.0,
+    "mode": "none",
+    "selected_rows": 0
+  },
+  "test_metrics": {
+    "emotions": {
+      "hamming_loss": 0.0,
+      "macro_f1": 0.75,
+      "micro_f1": 1.0
+    },
+    "polarity_macro_f1": 1.0,
+    "rows": 10
+  },
+  "threshold_diagnostics": {
+    "emotion_anger": {
+      "curve": [
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.05
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.1
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.15
+        },
+        {
+          "f1": 0.75,
+          "precision": 0.6,
+          "predicted_positive": 5,
+          "recall": 1.0,
+          "threshold": 0.2
+        },
+        {
+          "f1": 0.75,
+          "precision": 0.6,
+          "predicted_positive": 5,
+          "recall": 1.0,
+          "threshold": 0.25
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.3
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.35
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.39999999999999997
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.44999999999999996
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.49999999999999994
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.5
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.5499999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.6
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.65
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.75
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7999999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.85
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.9
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.95
+        }
+      ],
+      "curve_best_f1": 1.0,
+      "curve_best_threshold": 0.5,
+      "tuned_threshold": 0.5,
+      "tuned_validation_f1": 1.0
+    },
+    "emotion_anticipation": {
+      "curve": [
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.05
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.1
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.15
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.2
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.25
+        },
+        {
+          "f1": 0.75,
+          "precision": 0.6,
+          "predicted_positive": 5,
+          "recall": 1.0,
+          "threshold": 0.3
+        },
+        {
+          "f1": 0.75,
+          "precision": 0.6,
+          "predicted_positive": 5,
+          "recall": 1.0,
+          "threshold": 0.35
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.39999999999999997
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.44999999999999996
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.45000000000000007
+        },
+        {
+          "f1": 0.8,
+          "precision": 1.0,
+          "predicted_positive": 2,
+          "recall": 0.6666666666666666,
+          "threshold": 0.49999999999999994
+        },
+        {
+          "f1": 0.5,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 0.3333333333333333,
+          "threshold": 0.5499999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.6
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.65
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.75
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7999999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.85
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.9
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.95
+        }
+      ],
+      "curve_best_f1": 1.0,
+      "curve_best_threshold": 0.45000000000000007,
+      "tuned_threshold": 0.45000000000000007,
+      "tuned_validation_f1": 1.0
+    },
+    "emotion_disgust": {
+      "curve": [
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.05
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.1
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.15
+        },
+        {
+          "f1": 0.75,
+          "precision": 0.6,
+          "predicted_positive": 5,
+          "recall": 1.0,
+          "threshold": 0.2
+        },
+        {
+          "f1": 0.75,
+          "precision": 0.6,
+          "predicted_positive": 5,
+          "recall": 1.0,
+          "threshold": 0.25
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.3
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.35
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.39999999999999997
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.44999999999999996
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.49999999999999994
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.5
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.5499999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.6
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.65
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.75
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7999999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.85
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.9
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.95
+        }
+      ],
+      "curve_best_f1": 1.0,
+      "curve_best_threshold": 0.5,
+      "tuned_threshold": 0.5,
+      "tuned_validation_f1": 1.0
+    },
+    "emotion_fear": {
+      "curve": [
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.05
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.1
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.15
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.2
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.25
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.3
+        },
+        {
+          "f1": 0.2857142857142857,
+          "precision": 0.16666666666666666,
+          "predicted_positive": 6,
+          "recall": 1.0,
+          "threshold": 0.35
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.39999999999999997
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.44999999999999996
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.49999999999999994
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.5
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.5499999999999999
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.6
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.65
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.75
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7999999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.85
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.9
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.95
+        }
+      ],
+      "curve_best_f1": 1.0,
+      "curve_best_threshold": 0.5,
+      "tuned_threshold": 0.5,
+      "tuned_validation_f1": 1.0
+    },
+    "emotion_joy": {
+      "curve": [
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.05
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.1
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.15
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.2
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.25
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.3
+        },
+        {
+          "f1": 0.46153846153846156,
+          "precision": 0.3,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.35
+        },
+        {
+          "f1": 0.75,
+          "precision": 0.6,
+          "predicted_positive": 5,
+          "recall": 1.0,
+          "threshold": 0.39999999999999997
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.44999999999999996
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.49999999999999994
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 3,
+          "recall": 1.0,
+          "threshold": 0.5
+        },
+        {
+          "f1": 0.8,
+          "precision": 1.0,
+          "predicted_positive": 2,
+          "recall": 0.6666666666666666,
+          "threshold": 0.5499999999999999
+        },
+        {
+          "f1": 0.5,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 0.3333333333333333,
+          "threshold": 0.6
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.65
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.75
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7999999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.85
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.9
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.95
+        }
+      ],
+      "curve_best_f1": 1.0,
+      "curve_best_threshold": 0.5,
+      "tuned_threshold": 0.5,
+      "tuned_validation_f1": 1.0
+    },
+    "emotion_sadness": {
+      "curve": [
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.05
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.1
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.15
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.2
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.25
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.3
+        },
+        {
+          "f1": 0.25,
+          "precision": 0.14285714285714285,
+          "predicted_positive": 7,
+          "recall": 1.0,
+          "threshold": 0.35
+        },
+        {
+          "f1": 0.3333333333333333,
+          "precision": 0.2,
+          "predicted_positive": 5,
+          "recall": 1.0,
+          "threshold": 0.39999999999999997
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.44999999999999996
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.49999999999999994
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.5
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.5499999999999999
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.6
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.65
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.75
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7999999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.85
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.9
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.95
+        }
+      ],
+      "curve_best_f1": 1.0,
+      "curve_best_threshold": 0.5,
+      "tuned_threshold": 0.5,
+      "tuned_validation_f1": 1.0
+    },
+    "emotion_surprise": {
+      "curve": [
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 10,
+          "recall": 0.0,
+          "threshold": 0.05
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 10,
+          "recall": 0.0,
+          "threshold": 0.1
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 10,
+          "recall": 0.0,
+          "threshold": 0.15
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 10,
+          "recall": 0.0,
+          "threshold": 0.2
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 10,
+          "recall": 0.0,
+          "threshold": 0.25
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 10,
+          "recall": 0.0,
+          "threshold": 0.3
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 9,
+          "recall": 0.0,
+          "threshold": 0.35
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 2,
+          "recall": 0.0,
+          "threshold": 0.39999999999999997
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.44999999999999996
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.49999999999999994
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.5
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.5499999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.6
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.65
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.75
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7999999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.85
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.9
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.95
+        }
+      ],
+      "curve_best_f1": 0.0,
+      "curve_best_threshold": 0.5,
+      "tuned_threshold": 0.5,
+      "tuned_validation_f1": 0.0
+    },
+    "emotion_trust": {
+      "curve": [
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.05
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.1
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.15
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.2
+        },
+        {
+          "f1": 0.18181818181818182,
+          "precision": 0.1,
+          "predicted_positive": 10,
+          "recall": 1.0,
+          "threshold": 0.25
+        },
+        {
+          "f1": 0.2,
+          "precision": 0.1111111111111111,
+          "predicted_positive": 9,
+          "recall": 1.0,
+          "threshold": 0.3
+        },
+        {
+          "f1": 0.25,
+          "precision": 0.14285714285714285,
+          "predicted_positive": 7,
+          "recall": 1.0,
+          "threshold": 0.35
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.39999999999999997
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.44999999999999996
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.49999999999999994
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.5
+        },
+        {
+          "f1": 1.0,
+          "precision": 1.0,
+          "predicted_positive": 1,
+          "recall": 1.0,
+          "threshold": 0.5499999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.6
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.65
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.75
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.7999999999999999
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.85
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.9
+        },
+        {
+          "f1": 0.0,
+          "precision": 0.0,
+          "predicted_positive": 0,
+          "recall": 0.0,
+          "threshold": 0.95
+        }
+      ],
+      "curve_best_f1": 1.0,
+      "curve_best_threshold": 0.5,
+      "tuned_threshold": 0.5,
+      "tuned_validation_f1": 1.0
+    }
+  },
+  "tuned_emotion_thresholds": {
+    "emotion_anger": 0.5,
+    "emotion_anticipation": 0.45000000000000007,
+    "emotion_disgust": 0.5,
+    "emotion_fear": 0.5,
+    "emotion_joy": 0.5,
+    "emotion_sadness": 0.5,
+    "emotion_surprise": 0.5,
+    "emotion_trust": 0.5
+  },
+  "validation_metrics": {
+    "emotions": {
+      "hamming_loss": 0.0,
+      "macro_f1": 0.875,
+      "micro_f1": 1.0
+    },
+    "polarity_macro_f1": 1.0,
+    "rows": 10
+  }
+}
